@@ -52,18 +52,7 @@ function AddressBook() {
     });
     contactsList.html(htmlForContactInfo);
   }
-  function attachContactListeners() {
-    $("ul#contacts").on("click", "li", function() {
-      showContact(this.id);
-    });
-    // Code below here is new!
-    $("#buttons").on("click", ".deleteButton", function() {
-      addressBook.deleteContact(this.id);
-      $("#show-contact").hide();
-      displayContactDetails(addressBook);
-    });
-  }
-  }
+  
   function showContact(contactId) {
     const contact = addressBook.findContact(contactId);
     $("#show-contact").show();
@@ -75,20 +64,28 @@ function AddressBook() {
     buttons.append("<button class='deleteButton' id=" +  + contact.id + ">Delete</button>");
   }
   
+  function attachContactListeners() {
+    $("ul#contacts").on("click", "li", function() {
+      showContact(this.id);
+    });
+    $("#buttons").on("click", ".deleteButton", function() {
+      addressBook.deleteContact(this.id);
+      $("#show-contact").hide();
+      displayContactDetails(addressBook);
+    });
+  }
+  
   $(document).ready(function() {
     attachContactListeners();
     $("form#new-contact").submit(function(event) {
       event.preventDefault();
-      const inputtedFirstName = $("input#new-first-name").val();
-      const inputtedLastName = $("input#new-last-name").val();
-      const inputtedPhoneNumber = $("input#new-phone-number").val();
-  
-      // The next three lines are new:
+      var inputtedFirstName = $("input#new-first-name").val();
+      var inputtedLastName = $("input#new-last-name").val();
+      var inputtedPhoneNumber = $("input#new-phone-number").val();
       $("input#new-first-name").val("");
       $("input#new-last-name").val("");
       $("input#new-phone-number").val("");
-  
-      let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
+      var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
       addressBook.addContact(newContact);
       displayContactDetails(addressBook);
     });
